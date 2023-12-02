@@ -4,11 +4,13 @@ import { store } from './store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { SafeAreaView, View, Text, Image } from 'react-native';
+import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native';
 import ICON from './assets/icon.png';
 import SplashScreen from './screens/SplashScreen';
 import MapScreen from './screens/MapScreen';
 import AdditionalSplashScreen from './screens/AdditionalSplashScreen';
+import Status from './components/Status';
+
 
 const SplashStack = createStackNavigator();
 function SplashStackScreen() {
@@ -106,13 +108,29 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      
+     
+ 
       <NavigationContainer>
         {isSplashComplete ? (
           <MainDrawerNavigator />
         ) : (
           <SplashStackScreen />
         )}
+         <Status style={styles.inputMethodEditor}/>
       </NavigationContainer>
     </Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputMethodEditor: {
+  flex: 1,
+  backgroundColor: 'white',
+},});

@@ -11,7 +11,7 @@ import {
 import tw from "tailwind-react-native-classnames";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, } from "react-redux";
 import { selectTravelTimeInformation } from "../slices/navSlice";
 
 const data = [
@@ -23,16 +23,11 @@ const data = [
   },
   {
     id: "Tricycle-Student-002",
-    title: "Student",
+    title: "Discounted",
     multiplier: 0.8,
-    image: "https://as2.ftcdn.net/v2/jpg/02/19/98/93/1000_F_219989372_K1pBzmbiGfoMd6X5JJd5SYOVIBzSUN8f.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRllY2G-xeoq0qSoTn-fbF-w03fInQPk2vD5Wlt-Zvh-ubKmue631hbP38T6mgN-jOBgUw&usqp=CAU",
   },
-  {
-    id: "Tricycle-Regular-003",
-    title: "Senior Citizen",
-    multiplier: 0.8,
-    image: "https://static.vecteezy.com/system/resources/thumbnails/000/573/106/small/vector60-6964-01.jpg",
-  },
+  
 ];
 
 // If we have SURGE pricing, this goes up

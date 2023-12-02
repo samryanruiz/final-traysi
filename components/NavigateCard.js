@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -20,11 +14,12 @@ const NavigateCard = () => {
   const navigation = useNavigation();
   const [originPlace, setOriginPlace] = useState(null); // New state for the source location
 
+  
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       {/* Source location input */}
       <View style={tw`border-t border-gray-200 flex-shrink`}>
-        <View>
+        <View >
           <GooglePlacesAutocomplete
             placeholder="Where from?" // Change placeholder
             styles={fromInputBoxStyles} // Define fromInputBoxStyles
@@ -44,20 +39,48 @@ const NavigateCard = () => {
               );
             }}
             enablePoweredByContainer={false}
+          
             query={{
               key: GOOGLE_MAPS_APIKEY,
               language: "en",
+              components: "country:PH",
+              radius: "100",
             }}
+
+           
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
+            keyboardShouldPersistTaps="always"
+            renderRow={(data) => {
+              // Custom renderRow function to filter results
+              if (data.description.toLowerCase().includes("quezon city")) {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(
+                        setOrigin({
+                          location: data.geometry?.location,
+                          description: data.description,
+                        })
+                      );
+                    }}
+                  >
+                
+                    <Text>{data.description}</Text>
+                  </TouchableOpacity>
+                );
+              } else {
+                return null; // Do not render if the result doesn't contain "Quezon City"
+              }
+            }}
           />
         </View>
 
         {/* Destination location input */}
-        <View>
+        <View >
           <GooglePlacesAutocomplete
-            placeholder="Where to?"
-            styles={toInputBoxStyles}
+            placeholder="Where from?" // Change placeholder
+            styles={fromInputBoxStyles} // Define fromInputBoxStyles
             fetchDetails={true}
             returnKeyType={"search"}
             minLength={2}
@@ -77,6 +100,7 @@ const NavigateCard = () => {
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
+            keyboardShouldPersistTaps="always" // Add this line
           />
         </View>
 
@@ -95,17 +119,7 @@ const NavigateCard = () => {
           <Text style={tw`text-white text-center`}>Rides</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
-          style={tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full`}
-        >
-          <Icon
-            name="fast-food-outline"
-            type="ionicon"
-            color="black"
-            size={16}
-          />
-          <Text style={tw`text-center`}>Eats</Text>
-        </TouchableOpacity> */}
+        {}
       </View>
     </SafeAreaView>
   );
@@ -147,4 +161,4 @@ const toInputBoxStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 0,
   },
-});
+})

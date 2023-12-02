@@ -1,14 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import tw from "tailwind-react-native-classnames";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDestination,
-  selectOrigin,
-  setTravelTimeInformation,
-} from "../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
+import { selectOrigin, selectDestination, setTravelTimeInformation } from "../slices/navSlice";
 import { GOOGLE_MAPS_APIKEY } from "@env";
 
 const Map = () => {
@@ -17,8 +12,9 @@ const Map = () => {
   const mapRef = useRef(null);
   const dispatch = useDispatch();
 
+  // Function to adjust map to fit markers
   const fitMarkers = () => {
-    if (mapRef.current && origin && destination) {
+    if (mapRef.current && origin?.location && destination?.location) {
       mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
         edgePadding: { top: 100, right: 50, bottom: 50, left: 50 },
         animated: true,
@@ -45,7 +41,7 @@ const Map = () => {
     };
 
     getTravelTime();
-  }, [origin, destination, GOOGLE_MAPS_APIKEY]);
+  }, [origin, destination, dispatch, GOOGLE_MAPS_APIKEY]);
 
   return (
     <MapView
@@ -53,11 +49,11 @@ const Map = () => {
       style={tw`flex-1`}
       mapType="mutedStandard"
       initialRegion={{
-        latitude: origin.location.lat,
-        longitude: origin.location.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      }}
+          latitude: 14.651335,
+          longitude: 121.049107,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        } }
     >
       {origin && destination && (
         <MapViewDirections
@@ -98,5 +94,3 @@ const Map = () => {
 };
 
 export default Map;
-
-const styles = StyleSheet.create({});
